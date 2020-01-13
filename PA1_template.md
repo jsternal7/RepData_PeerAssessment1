@@ -28,24 +28,23 @@ if (!file.exists("JS_CP1_Data")){
 
 ## What is mean total number of steps taken per day?
 
-Per the instructions for this setp in the assignment, a histogram of the total number of steps taken each day was requested:
-
-
-```r
-plot <- barplot(tapply(repdata$steps,repdata$date,sum),xlab="Date",ylab="Total Steps Taken",
-                main="Total Steps Taken Per Day, Oct-Nov 2012")
-```
-
-![](PA1_template_files/figure-html/Figure_1-1.png)<!-- -->
-
-Additionally, calculations were performed to determine the mean and median total number of steps taken per day. To
-accomplish this, a datset was created that calculated the total number of steps taken each day:  
+To accomplish this, a datset was created that calculated the total number of steps taken each day:  
 
 
 ```r
 totsteps <- aggregate(repdata$steps~repdata$date,FUN=sum,na.rm=TRUE)
 colnames(totsteps) <- c("date","tot_steps")
 ```
+
+Per the instructions for this setp in the assignment, a histogram of the total number of steps taken each day was requested:
+
+
+```r
+plot <- hist(x=totsteps$tot_steps,xlab="Total Steps Taken",ylab="Frequency",
+             main="Total Steps Taken Per Day, Oct-Nov 2012")
+```
+
+![](PA1_template_files/figure-html/Figure_1-1.png)<!-- -->
 
 From here, the mean and median of this dataset were calculated as follows:
 
@@ -107,7 +106,10 @@ Using this new dataset, a new histogram was generated using the following code:
 
 
 ```r
-plot <- barplot(tapply(imputed_steps$steps,imputed_steps$date,sum),xlab="Date",ylab="Total Steps Taken",
+i_totsteps <- aggregate(imputed_steps$steps~imputed_steps$date,FUN=sum,na.rm=TRUE)
+colnames(i_totsteps) <- c("date","tot_steps")
+
+plot2 <- hist(i_totsteps$tot_steps,xlab="Total Steps Taken",ylab="Frequency",
                 main="Total Steps Taken Per Day, Oct-Nov 2012")
 ```
 
@@ -117,9 +119,6 @@ Additionally, the mean and median total steps were re-calculated using the follo
 
 
 ```r
-i_totsteps <- aggregate(imputed_steps$steps~imputed_steps$date,FUN=sum,na.rm=TRUE)
-colnames(i_totsteps) <- c("date","tot_steps")
-
 i_mean <- round(mean(i_totsteps$tot_steps),digits=0)  
 i_median <- round(median(i_totsteps$tot_steps),digits=0)  
 ```
